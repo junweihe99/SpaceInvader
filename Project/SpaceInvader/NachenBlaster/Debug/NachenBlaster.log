@@ -1,0 +1,12 @@
+﻿  StudentWorld.cpp
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(151): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(170): warning C4018: '<': signed/unsigned mismatch
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(292): warning C4018: '<': signed/unsigned mismatch
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(294): warning C4018: '<': signed/unsigned mismatch
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(402): warning C4018: '<': signed/unsigned mismatch
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(407): warning C4018: '<': signed/unsigned mismatch
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(529): warning C4018: '<': signed/unsigned mismatch
+c:\cs32\project3\nachenblaster\nachenblaster\studentworld.cpp(531): warning C4018: '<': signed/unsigned mismatch
+  NachenBlaster.vcxproj -> C:\CS32\Project3\NachenBlaster\Debug\NachenBlaster.exe
+  NachenBlaster.vcxproj -> C:\CS32\Project3\NachenBlaster\Debug\NachenBlaster.pdb (Partial PDB)

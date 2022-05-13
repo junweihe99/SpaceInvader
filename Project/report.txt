@@ -1,0 +1,622 @@
+======================================================================================================================================================================================================							QUESTION ONE
+======================================================================================================================================================================================================
+
+Student World Class
+ 
+StudentWorld(std::string assetDir);
+1)constructor to initialize the data members
+
+
+~StudentWorld();
+1)destructor to delete the dynamically allocated objects in my m_actor vector and to delete
+ my Nachenblaster
+-don't need virtual destructor since nothing is derived from StudentWorld class
+
+
+virtual int init();
+1)create the 30 stars
+2)create a Nachenblaster
+-needs to be virtual since init() was not implementeed in the GameWorld class
+
+
+virtual int move();
+1) updates the status
+2) checks for collision and performs the necessary actions when objects collide
+3) tells each actor to doSomething()
+4) checks for collision effect once all objects have moved and performs the necessary actions when objects collide
+5) removes DeadObjects();
+6) Potentially add new starts
+7) Potentially add new aliens
+-needs to be virtual since init() was not implementeed in the GameWorld class
+
+
+virtual void cleanUp();
+1) performs same function as destructor
+-needs to be virtual since init() was not implementeed in the GameWorld class
+
+
+int getShipDestroyed() const;
+1) returns how many ships we've destroyed this level
+-I had this function in the StudentWorld class because I thought it would be easier to manage the
+ shipsDestroyed counter since I was managing the object-collision effect in StudentWorld anyways
+
+
+int getTotalShip() const;
+1) returns the total ship that has to be destroyed to beat this level
+-I had this function in the StudentWorld class because I thought it would be easier to manage the
+ totalShip counter since I was managing the object-collision effect in StudentWorld anyways
+
+
+int getMaxShip() const;
+1) returns the maximum amount of Ships that can be on the screen at a time
+-I had this function in the StudentWorld class because I am adding and deleting the actor objects in the StudentWorld
+
+
+int getCurrShip() const;
+1) returns the current amount of ships on the screen
+-I had this function in the StudentWorld class because I am adding and deleting the actor objects in the StudentWorld
+
+
+void pushNewObject(Actor* actor);
+1) Allows me to push a new actor onto my m_actor vector
+-I had this function in the StudentWorld because not all Actors needed to push a new Object into the m_actor vector, and this allowed me to call getWorld()->pushNewObject() whenever I wanted while
+I managed the Actors
+
+
+NachenBlaster* getBlaster() const;
+1) returns a pointer to the nachenblaster
+-I had this function in the StudentWorld because I only needed it in the StudentWorld
+
+
+void removeDeadObjects();
+1) removes any object that is Dead
+-I had this function in the StudentWorld because I am deleting actor objects in the StudentWorld
+
+
+void addNewStar();
+1) 1/15 chance to add new star
+-I had this function in the StudentWorld because I am adding new stars in the StudentWorld in the move() function
+
+
+void addNewAlien();
+1) Adds new aliens depending on the probability and condition specified on the spec
+-I had this function in the StudentWorld because I am adding new aliens in the StudentWorld in the move() function
+
+
+double euclidean_dist(double x1, double y1, double x2, double y2);
+1) Formula for object collision
+-I had this function in the StudentWorld because I am managing the collision in the StudentWorld
+
+
+bool collide(Actor* a1, Actor* a2);
+
+1) Checks to see if objects collided
+-I had this function in the StudentWorld because I am managing the collision in the StudentWorld
+
+
+void updateStatus();
+1) Updates the status line
+-I had this function in the StudentWorld because the StudentWorld needs to display the status line
+======================================================================================================================================================================================================
+Actor
+
+
+Actor(StudentWorld* world, int imageID, double startX, double startY, Direction dir = 0, double size = 1, unsigned int depth = 0);
+1) Constructor for Actors
+
+
+virtual void doSomething() = 0;
+1) Have actors perform their movement
+-virtual because all derived actors will have a doSomething() function but Actor itself will not do anything
+
+
+StudentWorld* getWorld() const;
+1) Returns a pointer to the StudentWorld() that the actor is in
+-I have this function in the Actor class because this allows all actors to return a pointer to its
+ host StudentWorld
+
+
+bool getAlive() const;
+1) Returns true if an actor is alive and false otherwise
+-I have this function in the Actor class because this allows all actors to check if they are alive
+
+
+bool checkOffScreen();
+1) Returns whether or not an object is off the screen
+2) Sets object to Dead if they are offScreen
+-I have this function in the Actor class because this allows all actors to check if they are off the screen
+
+
+void setDead();
+1) sets an Actor to dead
+-I have this function in the Actor class because this allows me to set any Actor to Dead
+
+
+bool isAlien() const;
+1) Checks to see if an object is an alien
+-I have this function in the Actor class because this allows me to check if any actor is an alien
+
+
+void setAlien();
+1) Sets an object to be an alien object
+-I have this function in the Actor class because this allows me to set an alien to be an alien object when its constructed
+
+
+int getAlienNum() const;
+1) Returns the number associated with the alien
+-I have this function in the Actor class because this allows me to identify which type of alien an alien object is
+-I needed to put this in the Actor class and not the Alien class because I needed to call this function in StudentWorld with my m_actor vector, which points to an actor, thus I must include it in the Actor class
+
+
+void setAlienNum(int num);
+1) set an Alien number 
+-I have this function in the Actor class because this allows me to set a specific alien number to a specific alien
+-I needed to put this in the Actor class and not the Alien class because getAlienNum() needed to be in the Actor class and thus I needed to manage the member variable m_alien_num in the Actor class
+
+
+bool isStar() const;
+1) Checks to see if object is a star
+-I have this function in the Actor class because this allows me to check if any actor is a star
+
+
+void setStar();
+1) Sets an object to be a star
+-I have this function in the Actor class because this allows me to set an actor to a star when its constructed
+
+bool isExplosion() const;
+
+1) Checks to see if object is an explosion
+-I have this function in the Actor class because this allows me to check if any actor is an explosion
+
+
+void setExplosion();
+1) Sets an object to be an explosion
+-I have this function in the Actor class because this allows me to set an actor to an explosion when its constructed
+
+
+bool isProjectile() const;
+
+1) Checks to see if object is a projectile
+-I have this function in the Actor class because this allows me to check if any actor is a projectile
+
+void setProjectile();
+1) Sets an object to be a projectile
+-I have this function in the Actor class because this allows me to set an actor to a projectile when its constructed
+
+
+int getProjectileNum() const;
+
+1) Returns the number associated with the Projectile
+-I have this function in the Actor class because this allows me to identify which type of projectile an projectile object is
+-I needed to put this in the Actor class and not the Projectile class because I needed to call this function in StudentWorld with my m_actor vector, which points to an actor, thus I must include it in the Actor class
+
+
+void setProjectileNum(int num);
+1) set a Projectile number 
+-I have this function in the Actor class because this allows me to set a specific projectile number to a specific projectile
+-I needed to put this in the Actor class and not the Projectile class because getProjectileNum() needed to be in the Actor class and thus I needed to manage the member variable m_projectile_num in the Actor class
+
+
+bool isGoodie() const;
+
+1) Checks to see if object is a goodie
+-I have this function in the Actor class because this allows me to check if any actor is a goodie
+
+
+void setGoodie();
+1) Sets an object to be a goodie
+-I have this function in the Actor class because this allows me to set an actor to a goodie when its constructed
+
+
+int getGoodieNum() const;
+
+1) Returns the number associated with the Goodie
+-I have this function in the Actor class because this allows me to identify which type of goodie a goodie object is
+-I needed to put this in the Actor class and not the Goodie class because I needed to call this function in StudentWorld with my m_actor vector, which points to an actor, thus I must include it in the Actor class
+
+void setGoodieNum(int num);
+1) set a Goodie number 
+-I have this function in the Actor class because this allows me to set a specific goodie number to a specific goodie
+-I needed to put this in the Actor class and not the Goodie class because getGoodieNum() needed to be in the Actor class and thus I needed to manage the member variable m_goodie_num in the Actor class
+
+
+double getHealth() const;
+1) returns the health that an actor has
+-I have this in the Actor class because it was more convenient for me since this allows me to call getHealth() on any Actor
+
+
+void sufferDamage(double amt);
+1) applies damages to an actor
+-I have this in the Actor class because I am managing my collisions in the StudentWorld and this allows me to apply damages to actors in the StudentWorld
+
+
+void setHealth(double health);
+1) Sets the health for an actor
+-I have this function in the actor class because this allows me to set the health correctly for different objects when they are constructed
+======================================================================================================================================================================================================
+Star
+
+Star(StudentWorld* world, int imageID, double startX, double startY, Direction dir, double size, unsigned int depth);
+1) Constructor for a star
+
+
+virtual void doSomething();
+1) Checks to see if the star is off screen and move it 1 pixel to the left if its not offScreen
+-virtual because star does something unique from other actors
+======================================================================================================================================================================================================
+DamageableObject
+
+
+DamageableObject(StudentWorld* world, int imageID, double startX, double startY, Direction dir, double size, unsigned int depth);
+
+1) Constructor for a Damageable Object
+
+virtual void doSomething() =0;
+
+-pure virtual function because a damageable object will serve as the base class for the NachenBlaster and the Aliens, but it itself will not do anything
+
+void increaseHitPoints(double amt);
+1) Increases the Hitpoints for Damageable Object
+-I put this function in the Damage Object class because only damageable objects will ever have their hitpoints increased
+
+======================================================================================================================================================================================================
+NachenBlaster
+
+
+NachenBlaster(StudentWorld* world, int imageID, double startX, double startY, Direction dir = 0, double size = 1, unsigned int depth = 0);
+1) Constructor for the NachenBlaster
+
+
+virtual void doSomething();
+1) Allows the NachenBlaster to move and shoot and earn cabbage points
+-this is virtual because the NachenBlaster does something unique from other actors
+
+
+void increaseTorpedoes(int amt);
+1) increses the number of Torpedoes a NachenBlaster has
+-I put this function in the NachenBlaster class because only NachenBlaster will ever have its Torpedo numbers increased
+
+
+int getCabbage() const;
+1) gets the cabbage points that a NachenBlaster has
+-I put this function in the NachenBlaster class because only NachenBlaster will ever have to keep track of cabbage-points
+
+
+int getTorpedoes() const;
+1) gets the number of torpedoes that a NachenBlaster has
+-I put this function in the NachenBlaster class because only NachenBlaster will ever have to keep track of its torpedo numbers
+
+
+double getHealthPerct() const;
+
+1) Gets the Health Percentage
+-I put this function in the NachenBlaster class because only NachenBlaster will ever have to keep track of its health percentage
+
+
+double getCabbagePerct() const;
+1) Gets the Cabbage Percentage
+-I put this function in the NachenBlaster class because only NachenBlaster will ever have to keep track of its cabbage percentage
+
+======================================================================================================================================================================================================
+Explosion
+
+Explosion(StudentWorld* world, int imageID, double startX, double startY, Direction dir = 0, double size = 1, unsigned int depth=0);
+
+1) Constructor for Explosions
+
+
+virtual void doSomething();
+1) Increases it size every tick and set it to Dead on the 4th tick
+-virtual because explosion does something unique from other actors
+
+======================================================================================================================================================================================================
+Aliens
+
+Aliens(StudentWorld* world, int imageID, double startX, double startY, Direction dir, double size, unsigned int depth);
+
+1) Constructor for Aliens
+
+
+void setSpeed(double speed);
+
+1) Sets the speed for an alien
+-I put this function in the Alien class because only Aliens will ever have a speed
+
+
+double getSpeed() const;
+
+1) Gets the speed of an alien aircraft
+-I put this function in the Alien class because only Aliens will ever have a speed
+
+
+int getFlightplan() const;
+
+1) Gets the flightplan of an alien aircraft
+-I put this function in the Alien class because only Aliens will ever have a flightplan
+
+
+void setFlightplan(int plan);
+
+1) Sets the flightplan for an alien aircraft
+-I put this function in the Alien class because only Aliens will ever have a flightplan
+
+
+void decreaseFlightplan();
+1) Decreases the flightplan for an alien aircraft
+-I put this function in the Alien class because only Aliens will ever have a flightplan
+
+
+int getTravelDirection() const;
+
+1) Gets the travel direction of the alien aircraft (each direction has its own unique number associated)
+-I put this function in the Alien class because only Aliens will ever have a travel direction
+
+
+void setTravelDirection(int dir);
+
+1) Sets the travel direction for an alien aircraft
+-I put this function in the Alien class because only Aliens will ever have a travel direction
+
+
+void move();
+1) Moves an alien according to its travel direction
+-I put this function in the Alien class because only Aliens will ever have a travel direction
+======================================================================================================================================================================================================
+Smallgons
+
+Smallgons(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size=1.5, unsigned int depth=1);
+
+1) Constructor for smallgons
+
+
+virtual void doSomething();
+1) checks to see if its alive
+2) checks to see if its offscreen
+3) checks to see if its flightplan is 0, and if it is gets a new flightplan and travel direction and moves
+4) checks to see if it hit the top of the screen and if it did, gets a new flight plan and travel direction and moves
+5) checks to see if it hit the bottom of the screen and if it did, gets a new flight plan and travel direction and moves
+6) If it is within range of the NachenBlaster, it will have a chance to shoot a turnip at the NachenBlaster
+-virtual because smallgons does something unique from other actors
+======================================================================================================================================================================================================
+Smoregons
+
+Smoregons(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size=1.5, unsigned int depth=1);
+
+1) Constructor for the Smoregons
+
+
+virtual void doSomething();
+1) checks to see if its alive
+2) checks to see if its offscreen
+3) checks to see if its flightplan is 0, and if it is gets a new flightplan and travel direction and moves
+4) checks to see if it hit the top of the screen and if it did, gets a new flight plan and travel direction and moves
+5) checks to see if it hit the bottom of the screen and if it did, gets a new flight plan and travel direction and moves
+6) If it is within range of the NachenBlaster, it will have a chance to shoot a turnip at the NachenBlaster
+7) It will also have a change to speed up into the NachenBlaster
+-virtual because smoregon does something unique from other actors
+======================================================================================================================================================================================================
+Snagglegons
+
+
+Snagglegons(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size=1.5, unsigned int depth=1);
+
+1) Constructor for the Snagglegons
+
+
+virtual void doSomething();
+1) checks to see if its alive
+2) checks to see if its offscreen
+3) checks to see if it hit the top of the screen and if it did, gets a new travel direction and moves
+5) checks to see if it hit the bottom of the screen and if it did, gets a new travel direction and moves
+6) If it is within range of the NachenBlaster, it will have a chance to shoot a flatulenceTorpedo at the NachenBlaster
+-virtual because smoregon does something unique from other actors
+======================================================================================================================================================================================================
+Projectiles
+
+Projectiles(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size=.5, unsigned int depth=1);
+1) Constructor for projectiles
+
+======================================================================================================================================================================================================
+Cabbages
+
+Cabbages(StudentWorld* world, int imageID, double startX, double startY, Direction dir =0, double size =.5, unsigned int depth =1);
+
+1) Constructor for cabbages
+
+
+virtual void doSomething();
+1) Checks to see if its alive
+2) Moves and rotates if its not off the screen
+-virtual because cabbages does something different from other actors
+
+======================================================================================================================================================================================================
+Turnips
+
+
+Turnips(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size =.5, unsigned int depth=1);
+
+1) Constructor for turnips
+
+
+virtual void doSomething();
+1) Checks to see if its alive
+2) Moves and rotates if its not off the screen
+-virtual because turnips does something different from other actors
+
+======================================================================================================================================================================================================
+Flatulence Torpedoes
+
+FlatulenceTorpedoes(StudentWorld* world, int imageID, double startX, double startY, Direction dir, double size=.5, unsigned int depth=1);
+
+1) Constructor for flatuelnce Torpedoes
+
+virtual void doSomething();
+1) checks to see if its alive
+2) moves if its not off screen
+-virtual beacause flatulence torpedoes does something unique from other actors
+
+======================================================================================================================================================================================================
+Goodies
+
+Goodies(StudentWorld* world, int imageID, double startX, double startY, Direction dir, double size, unsigned int depth);
+
+1) Constructor for Goodies
+
+virtual void doSomething();
+1) moves the goodies
+-virtual because goodies does something unique fro other actors
+
+======================================================================================================================================================================================================
+Repair Goodies
+
+RepairGoodies(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size=.5, unsigned int depth=1);
+1) Constructor for repair goodies
+
+======================================================================================================================================================================================================
+Extra Life Goodies
+
+ExtraLifeGoodies(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size=.5, unsigned int depth=1);
+1) Constructor for extra life goodies
+
+======================================================================================================================================================================================================
+FlatulenceTorpedoes Goodies
+
+FlatulenceTorpedoesGoodies(StudentWorld* world, int imageID, double startX, double startY, Direction dir=0, double size=.5, unsigned int depth=1)
+1) Constructor for Flatulence Torpedoes Goodies
+
+======================================================================================================================================================================================================							QUESTION TWO
+====================================================================================================================================================================================================== 
+I finished implementing all the funtionality stated in the project spec. There are no known bugs in my classes that I have detected so far.
+
+
+
+======================================================================================================================================================================================================
+						QUESTION THREE
+======================================================================================================================================================================================================
+Im pretty sure I've closely followed the instructions in the spec to the best of my ability so I did not make any assumptions.
+
+
+
+Design Decision
+-I made managing collision effects (when NachenBlaster collides with aliens, aliens collide with projectiles etc...) in the Student World. This was easier for me as I did not want to create a virtual function for collisionEffect in the Actor class, since it would be useless for certain classes (like the star or explosion). Since I made this decision, I had to add a lot of situational public member functions into the Actor class to allow me to accurately code the interaction between each collision. 
+
+
+======================================================================================================================================================================================================
+						QUESTION FOUR
+======================================================================================================================================================================================================
+
+StudentWorld Class
+
+I tested the StudentWorld class by using the p3sanity test, which shows that my construction, destruction, initialization, move, and clean up functions are working correctly. 
+
+I know that my getShipDestroyed, getTotalShip(), getMaxShip(), getCurrShip(), and getBlaster functions are correct as they are getter functions for my private data members.
+
+I tested my pushNewObject function when I used it in the Actor classes and I successfully added new actors to my m_actor vector.
+
+I tested my removeDeadObjects function by checking the size of my m_actor vector. This results in the size of my actor increasing with each new object and decreasing with each deleted object, thus showing that this function is working correctly.
+
+I know my addNewstar function is working correctly because new stars are added.
+
+I know my addNewAlien function is working correctly because new aliens are added when other aliens disappear off the screen.
+
+I know my euclidean_dist function is working correctly because it's just the distance formula.
+
+I know my collide function is working correctly because objects do collide in my game, and I'm relying on the fact that my  euclidean_dist is working as intended.
+
+I know my updateStatus() function is working correctly because the stats (such as health, level, score) are updated correctly.
+
+======================================================================================================================================================================================================
+Actor Class
+
+I tested my Actor class by confirming that I'm not allowed to make a actor object, since it contains the pure virtual function of doSomething();
+
+I know my getWorld(), getAlienNum(), isAlien(), setAlien(), setAlienNum(), getProjectileNum(), isProjectile(), setProjectile(), setProjectileNum, getGoodieNum(), isGoodie(), setGoodie(), setGoodieNum(), isStar(), setStar(), isExplosion, setExplosion(), setHealth() and getHealth()  functions are working correctly as they are just getter and mutator functions for my private data members.
+
+I tested my checkOffScreen and setDead() by sending objects off screen (like the star) and checking to see that they are set to Dead and removed from the game.
+
+I tested my getAlive() function by checking to see that an actor is alive if its not off the screen and if its health is not below 0.
+
+I tested my sufferDamage function by checking to see that my NachenBlaster does suffer damage by enemy ship crashes and projectiles and that the aliens do suffer damage by crashing into the NachenBlaster and by projectiles.
+
+======================================================================================================================================================================================================
+Star Class
+
+I tested my Star class by testing that stars are correctly created during the initialization phase of the game and that new stars are correctly implemented into the game. Also, it is obvious that the star objects are doing its job correctly, as it only moves across the screen and does nothing else.
+
+======================================================================================================================================================================================================
+Explosion Class
+
+I tested my Explosion class by testing that explosions are correctly created when aliens die and that their size increases.It is easy to tell that the explosion objects are doing its job correctly, as it disappears after increasing its size for a few ticks.
+
+======================================================================================================================================================================================================
+Damageable Object Class
+
+I tested my damageable object class by testing that I could not create a damageObject object since it has a pure virtual function of doSomething(). I also tested that the increase Hitpoints function is working correctly when the NachenBlaster gets a repair goodie and its life points in the status line is correctly adjusted.
+
+======================================================================================================================================================================================================
+NachenBlaster Class
+
+I tesed my NachenBlaster Object by testing all the arrow keys to test that it can move in all 4 directions. I also tested by NachenBlaster object by testing that I am able to continously shoot cabbages since I should never run out of cabbages. I also tested that my NachenBlaster can shoot flatulence torpedoes by pressing tab once it gets some flatulence torpedo goodies. When my NachenBlaster gets a flatulence torpedo goodie, the status line is updated correctly, thus the increaseTorpedoes() and getTorpedoes() are working correctly. My getHealthPerct() and getCabbagePerct() is correctly updated in the status line too, so it is safe to assume those functions are working correctly too.
+
+======================================================================================================================================================================================================
+Alien Class
+
+I tested my alien class by testing that I cannot create an alien object, since it inherited the pure virtual function of doSomething(). I tested that all aliens correctly have their speed set with the setSpeed() function, flightplan set with the setFlightPlan() function, travel direction set with setTravelDirection() function since the aliens do move and travel in the patterns described by the travel direction. Also, the aliens do change their travel direction and their flightplan do decrease correctly, since the aliens in the game do change directions when they hit the top/bottom of the screen and sometimes randomly in the middle of the screen.
+
+======================================================================================================================================================================================================
+Smallgon Class
+
+I tested my smallgon class by inspecting that in the game my smallgons correctly move with a valid travel direction and changes travel direction when it hits the top/bottom of the screen. Also it also has a chance to shoot turnips at my NachenBlaster and that my nachenblaster loses health accordingly. ALso, the scores are updated by 250 when it is destroyed. 
+
+======================================================================================================================================================================================================
+Smoregon Class
+
+I tested my smoregon class by inspecting that in the game my smoregons correctly move with a valid travel direction and changes travel direction when it hits the top/bottom of the screen. Also it also has a chance to shoot turnips at my NachenBlaster and that my nachenblaster loses health accordingly. It also has chance to speed up with great speed and that the scores are updated by 250 when it is destroyed.
+
+======================================================================================================================================================================================================
+Snagglegon Class 
+
+I tested my snagglegon class by inspecting in the game that my snagglegons only move diagonally and changes directions when it hits the top/bottom of the screen. Also, it has a chance to fire only torpedoes at my nachenblaster and that my nachenblaster loses health accordingly. I also checked to see that the scores are updated by 1000 when it is destroyed.
+
+
+======================================================================================================================================================================================================
+Projectiles Class 
+
+I tested my projectiles class by confirming that I could not create a projectile object since it inherited the pure virtual function of doSomething(). There is nothing else for me to test in the projectile class since it only has a projectile. I made this class just for better organization.
+
+======================================================================================================================================================================================================
+Cabbage Class 
+
+I tested my cabbage class by inspecting that when I click space, my nachenblaster shoots a cabbage and it will correctly damage the aliens if it collides with them. Also the cabbages' do something works correctly, as it continously moves to the right until it collides with an alien or goes off screen.
+
+======================================================================================================================================================================================================
+Turnip Class 
+
+I tested my cabbage class by inspecting that aliens sometimes shoot a turnip at the nachenblaster and it will damage the nachenblaster accordingly if the turnip collides with it. I know the damage is applied since the status line is updated. Also the turnip's doSomething() works correctly, as it continously moves to the left until it collides with the nachenblaster or goes off screen.
+
+======================================================================================================================================================================================================
+Flatulence Torpedoes Class 
+
+
+I tested my cabbage class by inspecting that the snagglegon sometimes shoot a torpedo at the nachenblaster and it will damage the nachenblaster accordingly if the torpedo collides with it. I know the damage is applied since the status line is updated. Also the turnip's doSomething() works correctly, as it continously moves to the left until it collides with the nachenblaster or goes off screen. Also, I also tested that the nachenblaster will launch a torpedo once it has torpedo counts and that it will continously move to the right until it collides with an alien or moves off screen.
+
+======================================================================================================================================================================================================
+Goodie Class 
+
+I tested my goodie class by inspecting that all goodies will move down and to the left until it falls of the screen. I made the doSomething() function in the Goodie class since all goodies move in the same way and I allowed the StudentWorld to handle the interactions of the collision between each specific goodie and the nachenblaster.
+
+
+======================================================================================================================================================================================================
+RepairGoodie Class 
+
+I tested my repair goodie class by making sure that I correctly created a repair goodie sometimes when a smoregon dies. The repair goodie moves correctly as it inherits the doSomething from the Goodie class. There is nothing else to test since the collision interaction is managed in my StudentWorld class and there is no other public member functions.
+
+======================================================================================================================================================================================================
+ExtraLife Goodie Class 
+
+I tested my repair goodie class by making sure that I correctly created an extra goodie sometimes when a snagglegon dies. The extra life goodie moves correctly as it inherits the doSomething from the Goodie class. There is nothing else to test since the collision interaction is managed in my StudentWorld class and there is no other public member functions.
+
+======================================================================================================================================================================================================
+FlatulenceTorpedo Goodie Class 
+
+I tested my flatulenceTorpedo goodie class by making sure that I correctly created a flatulence Torpedo goodie sometimes when a smoregon dies. The torpedo goodie moves correctly as it inherits the doSomething from the Goodie class. There is nothing else to test since the collision interaction is managed in my StudentWorld class and there is no other public member functions.
