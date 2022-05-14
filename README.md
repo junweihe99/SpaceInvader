@@ -1,5 +1,5 @@
 # SpaceInvader
-SpaceInvader is an application built using C++ and OOP principles as a class project. I completed this project back in 2018. Many of the background files and sprites were provided by the instructor. The main files I was responsible for building were
+SpaceInvader is an application built using C++ and OOP principles as a class project. Many of the background files and sprites were provided by the instructor. The main files I was responsible for building were
 <ul>
   <li>StudentWorld.cpp
   <li>StudentWorld.h
