@@ -7,7 +7,8 @@ SpaceInvader is an application built using C++ and OOP principles as a class pro
   <li>Actor.h
 </ul>
 
-All implemented codes and pseudocode is recorded in report.txt file. *Disclaimer: old cold so a lot of bad practices
+All implemented codes and pseudocode is recorded in report.txt file. 
+*Disclaimer: old code so there was a lot of bad practices*
 
 <h4>How To Use</h4>
   <ul>
