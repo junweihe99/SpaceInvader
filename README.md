@@ -8,7 +8,6 @@ SpaceInvader is an application built using C++ and OOP principles as a class pro
 </ul>
 
 All implemented codes and pseudocode is recorded in report.txt file. <br>
-*Disclaimer: old code so there was a lot of bad practices*
 
 <h4>How To Use</h4>
   <ul>
